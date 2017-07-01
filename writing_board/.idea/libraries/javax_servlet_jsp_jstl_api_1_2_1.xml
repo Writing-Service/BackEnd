@@ -1,0 +1,26 @@
+<component name="libraryTable">
+  <library name="javax.servlet.jsp.jstl-api-1.2.1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../Lab_Project/library/javax.servlet.jsp.jstl-api-1.2.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../Lab_Project/library/javax.servlet.jsp.jstl-1.2.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../Lab_Project/library/cos.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../Lab_Project/library/jstl-1.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../Lab_Project/library/mysql-connector-java-6.0.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../Lab_Project/library/client2.zip!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/../../Lab_Project/library/mariadb-java-client-2.0.3-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../../Lab_Project/library/client2.zip!/src" />
+      <root url="jar://$PROJECT_DIR$/../../Lab_Project/library/taglibs-standard-1.2.5-source-release.zip!/taglibs-standard-1.2.5/compat/src/main/java" />
+      <root url="jar://$PROJECT_DIR$/../../Lab_Project/library/taglibs-standard-1.2.5-source-release.zip!/taglibs-standard-1.2.5/impl/src/main/java" />
+      <root url="jar://$PROJECT_DIR$/../../Lab_Project/library/taglibs-standard-1.2.5-source-release.zip!/taglibs-standard-1.2.5/impl/src/test/java" />
+      <root url="jar://$PROJECT_DIR$/../../Lab_Project/library/taglibs-standard-1.2.5-source-release.zip!/taglibs-standard-1.2.5/jstlel/src/main/java" />
+      <root url="jar://$PROJECT_DIR$/../../Lab_Project/library/taglibs-standard-1.2.5-source-release.zip!/taglibs-standard-1.2.5/jstlel/src/test/java" />
+      <root url="jar://$PROJECT_DIR$/../../Lab_Project/library/taglibs-standard-1.2.5-source-release.zip!/taglibs-standard-1.2.5/spec/src/main/java" />
+      <root url="jar://$PROJECT_DIR$/../../Lab_Project/library/taglibs-standard-1.2.5-source-release.zip!/taglibs-standard-1.2.5/spec/src/test/java" />
+      <root url="jar://$PROJECT_DIR$/../../Lab_Project/library/taglibs-standard-1.2.5-source-release.zip!/taglibs-standard-1.2.5/standard-test/src/test/java" />
+    </SOURCES>
+  </library>
+</component>

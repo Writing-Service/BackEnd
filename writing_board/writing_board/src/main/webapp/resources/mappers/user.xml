@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--원하는 Database가 정해지면 이부분은 변경 예정-->
+<mapper namespace="com.project.dbboard.Mapper.UserMapper">
+
+	<select id="selectinformation" resultType="com.project.dbboard.VO.UserVO">
+		select idx,id,nickname,password from user limit 1
+	</select>
+</mapper>

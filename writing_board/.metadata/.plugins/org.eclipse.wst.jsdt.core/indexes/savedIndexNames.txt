@@ -1,0 +1,6 @@
+INDEX VERSION 1.3+C:\Users\anyoz\OneDrive\Project\writing_board\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+494987528.index
+1613144512.index
+685277399.index
+562584859.index
+529816314.index
