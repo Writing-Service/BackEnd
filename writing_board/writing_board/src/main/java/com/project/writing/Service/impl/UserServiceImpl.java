@@ -12,11 +12,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService{
     @Autowired
     private UserMapper userMapper;
-    @Override
-    public List<UserVO> selectuserVO(){
-        return userMapper.selectuser();
-    };
 
     @Override
-    public UserVO selectestVO(String idx){return userMapper.selectest(idx);};
+    public List<UserVO> selectuserVO(){ return userMapper.selectuser();};
 }

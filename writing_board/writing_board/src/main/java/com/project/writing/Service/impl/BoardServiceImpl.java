@@ -15,11 +15,15 @@ public class BoardServiceImpl implements BoardService {
     public BoardMapper boardMapper;
 
     @Override
-    public List<BoardVO> selectBoardVO(String author_id){
-        return boardMapper.selectBoard(author_id);
-    };
+    public List<BoardVO> outputboardVO(String board_writer){ return boardMapper.outputboard(board_writer); }
 
     @Override
-    public BoardVO testVO(String author_id){return boardMapper.test(author_id);}
+    public int countBoardVO(){ return boardMapper.countBoard(); };
+
+    @Override
+    public List<BoardVO> callboardVO(int board_number){ return boardMapper.callboard(board_number);}
+
+    @Override
+    public BoardVO writelookboardVO(int idx){return boardMapper.writelookboard(idx);};
 
 }

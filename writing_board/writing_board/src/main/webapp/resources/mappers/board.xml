@@ -6,11 +6,27 @@
 <!--원하는 Database가 정해지면 이부분은 변경 예정-->
 <mapper namespace="com.project.writing.Mapper.BoardMapper">
 
-<select id="selectBoard" parameterType="String" resultType="com.project.writing.VO.BoardVO">
-	select * from board where author_id = #{author_id}
+<!--자신이 불러온  글을 꺼내오는 함수-->
+<select id="outputboard" resultType="com.project.writing.VO.BoardVO">
+   select * from board where board_writer = #{board_writer} and board_bool = 1;
 </select>
 
-<select id="test" parameterType="String" resultType="com.project.writing.VO.BoardVO">
-    select * from board where author_id = #{author_id}
+<!--지금까지 작성된 글의 갯수-->
+<select id="countBoard" resultType="int">
+    select count(distinct board_number) from board order by board_number
 </select>
+
+<!--작성된 글을 불러오는 것-->
+<select id="callboard" resultType="com.project.writing.VO.BoardVO">
+   select * from board where board_number = #{board_number}
+</select>
+
+<!--이전의 바로 전 내용의 글을 불러오는 것-->
+<select id="writelookboard" resultType="com.project.writing.VO.BoardVO">
+    select * from board where idx = #{idx}
+</select>
+
+
+
+
 </mapper>

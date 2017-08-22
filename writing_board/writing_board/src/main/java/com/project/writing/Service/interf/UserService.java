@@ -8,5 +8,5 @@ import java.util.List;
 public interface UserService {
 
     public List<UserVO> selectuserVO();
-    public UserVO selectestVO(String idx);
+
 }

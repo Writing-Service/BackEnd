@@ -6,6 +6,7 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 import com.project.writing.Service.interf.BoardService;
 import com.project.writing.Service.interf.UserService;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  * Handles requests for the application home page.
@@ -51,47 +53,138 @@ public class HomeController {
 	}
 
 
-	// 로그인 후 인덱스로 이동
+	// 로그인 후 인덱스로 이동 - 저장했던 글 목록을 불러옴
 	@RequestMapping(value = "/login" , method = RequestMethod.POST)
-	public String login(HttpServletRequest request, Locale locale, Model model, UserVO userVO){
-        List<UserVO> uservo = userServiceimpl.selectuserVO();
-        for(UserVO vo : uservo){
+	public String login(HttpServletRequest request,Locale locale, Model model, UserVO userVO){
+        List<UserVO> user_VO = userServiceimpl.selectuserVO();
+        for(UserVO vo : user_VO){
             if(userVO.getId().equals(vo.getId())){
-                if(userVO.getPassword().equals(vo.getPassword())) {
-                    logger.info("로그인 되었습니다!.", locale);
-                    String ID = vo.getId();
-                    String Nickname = vo.getNickname();
-                    List<BoardVO> boardVO = boardServiceimpl.selectBoardVO(ID);
-                    request.getSession().setAttribute("ID",vo.getId());
-                    request.getSession().setAttribute("Nickname",vo.getNickname());
-                    model.addAttribute("Boardinformation",boardVO);
-                    model.addAttribute("Nickname",Nickname);
-                    model.addAttribute("ID",ID);
-                    // 그사람의 게시글 확인하기
+                if(userVO.getPassword().equals(vo.getPassword())){
+                    logger.info("로그인 되었습니다",locale);
+                    // 로그인 후 글 목록 불러오기
+                    List<BoardVO> boardVO = boardServiceimpl.outputboardVO(userVO.getId());
+                    int size = boardVO.size();
+                    request.getSession().setAttribute("author_id",vo.getId());
+                    request.getSession().setAttribute("author",vo.getNickname());
+                    model.addAttribute("size",size);
+                    model.addAttribute("author",vo.getNickname());
+                    model.addAttribute("author_id",vo.getId());
+                    model.addAttribute("BoardVO",boardVO);
                     return "index";
                 }
             }
         }
 		return "home";
 	}
-    // 글 추가 시 작동되는 Controller
+
+
+    // 글감 받아오는 부분
     @RequestMapping(value = "/reqthread" , method = RequestMethod.POST , produces="application/json;charset=utf8")
     @ResponseBody
-    public String req(Locale locale, Model model) {
+    public String req(Locale locale, Model model,HttpSession httpSession) {
+        // 작가의 ID를 불러와서 처리
+        boolean pre_same = false; // 이전 글 저자와 겹치는지 파악
+        boolean same = false; // 글 저자와 겹치는지 파악
+        boolean take = false; // 작성하려는 글이 이미 글감으로 불러와져 있는지 파악
+        String author_id = httpSession.getAttribute("author_id").toString();
+        Random random = new Random(System.currentTimeMillis());
+        int idx = Math.abs(random.nextInt(boardServiceimpl.countBoardVO()) + 1);
+        BoardVO findBoardDAO = new BoardVO();
+        List<BoardVO> boardVO = boardServiceimpl.callboardVO(idx);
+        while (take == false) {  // 이미 올라간 글인지 확인
+            while (same == false) { // 글의 작가와 겹치는지 확인
+                while (pre_same == false) { // 글의 이전 작가와 겹치지 않는지 확인 할것
+                    for (int i = 0; i < boardVO.size(); i++) {
+                        // 마지막인 경우
+                        if (i == (boardVO.size() - 1)) {
+                            if (!(author_id.equals(boardVO.get(i).getPre_author_id()))) { // 다를 경우
+                                findBoardDAO = boardVO.get(i);
+                                pre_same = true;
+                                break;
+                            }else {
+                                idx = Math.abs(random.nextInt(boardServiceimpl.countBoardVO()) + 1);
+                                boardVO = boardServiceimpl.callboardVO(idx);
+                                pre_same = false;
+                                break;
+                            }
+                        }
+                        else {
+                                if (!(author_id.equals(boardVO.get(i).getPre_author_id()))) { // 다를 경우
+                                    pre_same = true;
+                                } else { // 같을 경우
+                                    idx = Math.abs(random.nextInt(boardServiceimpl.countBoardVO()) + 1);
+                                    boardVO = boardServiceimpl.callboardVO(idx);
+                                    pre_same = false;
+                                    break;
+                                 }
+                        }
+                     }
+                }
+                // 글의 작가와 겹치는지 확인 할 것
+                    for (int i = 0; i < boardVO.size(); i++) {
+                        // 마지막인 경우
+                        if (i == (boardVO.size() - 1)) {
+                            if (!(author_id.equals(boardVO.get(i).getAuthor_id()))) { // 다를 경우
+                                same = true;
+                                break;
+                            }else {
+                                idx = Math.abs(random.nextInt(boardServiceimpl.countBoardVO()) + 1);
+                                boardVO = boardServiceimpl.callboardVO(idx);
+                                same = false;
+                                pre_same = false;
+                                break;
+                            }
+                        }
+                        else {
+                            if (!(author_id.equals(boardVO.get(i).getAuthor_id()))) { // 다를 경우
+                                same = true;
+                            } else { // 같을 경우
+                                idx = Math.abs(random.nextInt(boardServiceimpl.countBoardVO()) + 1);
+                                boardVO = boardServiceimpl.callboardVO(idx);
+                                same = false;
+                                pre_same = false;
+                                break;
+                            }
+                        }
+                    }
+                }
+            // 글이 작성자가 없는 경우
+            if(Integer.parseInt(findBoardDAO.getBoard_bool()) == 0){
+                take = true;
+            } // 글이 작성자가 있는 경우
+            else{
+                idx = Math.abs(random.nextInt(boardServiceimpl.countBoardVO()) + 1);
+                boardVO = boardServiceimpl.callboardVO(idx);
+                same = false;
+                pre_same = false;
+                take = false;
+            }
+        }
 
-	    BoardVO boardVO = boardServiceimpl.testVO("test1");
-
-	    JSONObject jsonObject = new JSONObject();
+        JSONObject jsonObject = new JSONObject();
         JSONObject jsonObject2 = new JSONObject();
-        String Test = "test" + value_id;
-        value_id++;
-        jsonObject.put("thread_id",Test);
+        String idx_id = "thread_id" + findBoardDAO.getIdx();
+        jsonObject.put("thread_id",idx_id);
         jsonObject.put("author",jsonObject2);
-        jsonObject2.put("name","names");
-        jsonObject.put("datetime",boardVO.getDatatime().toString());
-        jsonObject.put("content","테스트");
-	    logger.info("test",locale);
-	    return jsonObject.toString();
+        jsonObject2.put("name",findBoardDAO.getAuthor().toString());
+        jsonObject.put("date",findBoardDAO.getDatatime().toString());
+        jsonObject.put("datetime",findBoardDAO.getDatatime().toString());
+        jsonObject.put("content", findBoardDAO.getContent().toString());
+        jsonObject.put("idx",findBoardDAO.getIdx().toString());
+        logger.info("글을 받아옵니다",locale);
+        return jsonObject.toString();
+}
+
+    // 글 작성시 글 작성 페이지로 이동
+    @RequestMapping(value = "/writing", method = RequestMethod.GET)
+    public String write(Locale locale, Model model,HttpSession httpSession,int idx) {
+        String author_id = httpSession.getAttribute("author_id").toString();
+        String author = httpSession.getAttribute("author").toString();
+        BoardVO boardVO = boardServiceimpl.writelookboardVO(idx);
+        model.addAttribute("BoardVO",boardVO);
+        model.addAttribute("author",author);
+        model.addAttribute("author_id",author_id);
+        return "write";
     }
 
     // 라이브러리 이동
@@ -99,16 +192,6 @@ public class HomeController {
     public String library(Locale locale, Model model) {
 
         return "library";
-    }
-
-    // 글 작성시 글 작성 페이지로 이동
-    @RequestMapping(value = "/writing", method = RequestMethod.GET)
-    public String write(Locale locale, Model model, int idx) {
-        UserVO userVO = userServiceimpl.selectestVO(Integer.toString(idx));
-        String Temp = userVO.getNickname();
-        model.addAttribute("Author",Temp);
-        logger.info("홈페이지를 만듭니다", locale);
-        return "write";
     }
 
     // 뉴스피드 이용

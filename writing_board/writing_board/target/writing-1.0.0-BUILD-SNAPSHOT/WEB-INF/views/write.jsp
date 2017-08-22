@@ -18,7 +18,7 @@
         <header>
             <div class="header-layout">
 
-                <h1 class="header__title"><a href="/" title="홈으로">{{header_title}}</a></h1>
+                <h1 class="header__title"><a href="/" title="홈으로">Writing-Service</a></h1>
 
                 <nav class="header__tabs">
                     <a class="item" href="/">
@@ -45,54 +45,31 @@
                         </svg>
                         <span class="item-span">뉴스피드</span>
                     </a>
-
+                    <span class="item-span">${author}</span>
                 </nav>
 
-                <div class="header__user">
-                    <input id="user__toggle" type="checkbox" class="user__toggle hidden">
-
-                    <label class="user__toggle-label" for="user__toggle">
-                        <span class="user__name">{{user.name}}</span>
-                        <svg class="user__name-arrow" height="24" viewBox="0 0 24 24" width="24">
-                            <path d="M7 10l5 5 5-5z"/>
-                            <path d="M0 0h24v24H0z" fill="none"/>
-                        </svg>
-                    </label>
-
-                    <label class="user__toggle-underlay" for="user__toggle"></label>
-
-                    <div class="user__menu">
-                        {{user.name}}의 메뉴!
-                        <ul>
-                            <li><a href="/login/">로그인</a></li>
-                            <li><a href="/logout/">로그아웃</a></li>
-                            <!--삭제해야함-->
-                            <li><a href="/loginasadmin/">디버그 - 관리자로 로그인</a></li>
-                        </ul>
-                    </div>
-                </div>
             </div>
         </header>
 
         <main id="js--body" class="body-layout card-list">
         <div id="{{article.id}}" class="js--card card">
             <div class="primary-header">
-                <h2 class="primary-text">${Author}</h2>
+                <h2 class="primary-text">${BoardVO.author}</h2>
                 <%--datatime(받아온 날 , date(그 사람이 작성한 날)--%>
-                <time class="js--time sub-title" datetime="{{article.datetime}}">{{article.date}}</time>
-                <span class="chip">
-                    <i class="chip-icon">
-                        <svg class="chip-icon__svg" height="24" viewBox="0 0 24 24" width="24">
-                            <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/>
-                            <path d="M0 0h24v24H0z" fill="none"/>
-                            <path d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
-                        </svg>
-                    </i>
-                    <span class="js--timer chip-timer">calculating...</span>
-                </span>
+                <time class="js--time sub-title" datetime="${BoardVO.datatime}">${BoardVO.datatime}</time>
+                <%--<span class="chip">--%>
+                    <%--<i class="chip-icon">--%>
+                        <%--<svg class="chip-icon__svg" height="24" viewBox="0 0 24 24" width="24">--%>
+                            <%--<path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/>--%>
+                            <%--<path d="M0 0h24v24H0z" fill="none"/>--%>
+                            <%--<path d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>--%>
+                        <%--</svg>--%>
+                    <%--</i>--%>
+                    <%--&lt;%&ndash;<span class="js--timer chip-timer">calculating...</span>&ndash;%&gt;--%>
+                <%--</span>--%>
             </div>
 
-            <div class="sub-text">{{article.content}}</div>
+            <div class="sub-text">${BoardVO.content}</div>
         </div>
 
 
@@ -101,7 +78,7 @@
 
         <div class="editor nocard">
             <div class="editor-layout card">
-                <textarea id="js--em-editor">{{article.saved}}</textarea>
+                <textarea id="js--em-editor">${BoardVO.author_save}</textarea>
                 <span id="js--em-types" class="types">0/700</span>
             </div>
 

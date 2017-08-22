@@ -6,5 +6,4 @@ import java.util.List;
 
 public interface UserMapper {
     public List<UserVO> selectuser();
-    public UserVO selectest(String idx);
 }

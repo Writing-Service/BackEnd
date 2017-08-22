@@ -12,11 +12,12 @@
         <title>글쓰기 확인</title>
         <link rel="stylesheet" href="/resources/app/stat/writing.css"/>
         <link rel="stylesheet" href="/resources/app/stat/layout.css"/>
+        <script src="/resources/end.js"></script>
     </head>
     <body>
         <header>
             <div class="header-layout">
-            <%--로고 그림으로 대체할 것이다. --%>
+
                 <h1 class="header__title"><a href="/" title="홈으로">Writing-Service</a></h1>
 
                 <nav class="header__tabs">
@@ -43,24 +44,20 @@
                             <path d="M0 0h24v24H0z" fill="none"/>
                         </svg>
                         <span class="item-span">뉴스피드</span>
+
                     </a>
 
-                </nav>
-
-                <div class="header__user">
-                    <input id="user__toggle" type="checkbox" class="user__toggle hidden">
-
-                    <label class="user__toggle-label" for="user__toggle">
-                        <span class="user__name">${Nickname}</span>
-                        <svg class="user__name-arrow" height="24" viewBox="0 0 24 24" width="24">
-                            <path d="M7 10l5 5 5-5z"/>
+                    <a class="item" href="/newsfeed">
+                        <svg class="item-icon" height="24" viewBox="0 0 24 24" width="24">
+                            <path d="M12 10.9c-.61 0-1.1.49-1.1 1.1s.49 1.1 1.1 1.1c.61 0 1.1-.49 1.1-1.1s-.49-1.1-1.1-1.1zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm2.19 12.19L6 18l3.81-8.19L18 6l-3.81 8.19z"/>
                             <path d="M0 0h24v24H0z" fill="none"/>
                         </svg>
-                    </label>
+                        <span class="item-span"></span>
 
-                    <label class="user__toggle-underlay" for="user__toggle"></label>
+                    </a>
+                    <span class="item-span">${author}</span>
+                </nav>
 
-                </div>
             </div>
         </header>
 
@@ -69,13 +66,13 @@
             <link rel="stylesheet" href="/resources/app/stat/writing.css"/>
 
             <div class="raised-button-list nocard">
-                <button id="js--new-create" class="raised-button inactive" value="0">checking...</button>
+                <button id="js--new-create" class="raised-button inactive" value=${size}>checking...</button>
                 <button id="js--new-get" class="raised-button">글 받아오기</button>
             </div>
 
             <%--일감 내용--%>
-            <c:forEach items="${Boardinformation}" var="BoardVO">
-            <a id="${BoardVO.author_id}" class="js--card card" style="display: block;" href="<spring:url value="/writing?idx=${BoardVO.idx}"/>">
+            <c:forEach items="${BoardVO}" var="BoardVO">
+            <a id="${BoardVO.author_id}" class="js--card card" style="display: block;" href="<spring:url value="/writing?idx=${BoardVO.idx}&author_id=${BoardVO.author_id}"/>">
                 <div class="primary-header">
                     <h2 class="primary-text">${BoardVO.author}</h2>
                     <time class="js--time sub-title" datetime="${BoardVO.datatime}">${BoardVO.datatime}</time>
@@ -91,7 +88,7 @@
                     </span>
                 </div>
                 <div class="sub-text">${BoardVO.content}</div>
-
+                <input type="hidden" id = "${BoardVO.pre_author_id}" value= "${BoardVO.pre_author_id}" />
             </a>
             </c:forEach>
 
@@ -157,39 +154,39 @@
 
                 let url = '/reqthread/';
 
-                xhttp.open('POST', url, true);
-                xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
-                xhttp.send();
+                    xhttp.open('POST', url, true);
+                    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
+                    xhttp.send();
 
-                xhttp.onreadystatechange = function() {
-                if (xhttp.readyState == 4) {
-                if (xhttp.status != 200) {
-                console.log('error code: ' + xhttp.status);
-                } else {
-                const thread = JSON.parse(xhttp.responseText);
+                    xhttp.onreadystatechange = function() {
+                    if (xhttp.readyState == 4) {
+                    if (xhttp.status != 200) {
+                    console.log('error code: ' + xhttp.status);
+                    } else {
+                    const thread = JSON.parse(xhttp.responseText);
 
-                var template = document.createElement('a');
+                    var template = document.createElement('a');
 
-                template.id = thread.thread_id;
-                template.className = 'js--card card';
-                template.style.display = 'block';
-                template.href = '/writing/?id=' + thread.thread_id;
+                    template.id = thread.thread_id;
+                    template.className = 'js--card card';
+                    template.style.display = 'block';
+                    template.href = '/writing/?id=' + thread.thread_id + '&amp;' + thread.idx;
 
-                template.innerHTML = '<div class="primary-header"><h2 class="primary-text">'
-                + thread.author.name + '</h2><time class="js--time sub-title" datetime="'
-+ thread.datetime + '">'
-                + thread.date + '</time><span class="chip"><i class="chip-icon"><svg class="chip-icon__svg" height="24" viewBox="0 0 24 24" width="24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/><path d="M0 0h24v24H0z" fill="none"/><path d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg></i><span class="js--timer chip-timer">calculating...</span></span></div><div class="sub-text">'
-                + thread.content + '</div>';
+                    template.innerHTML = '<div class="primary-header"><h2 class="primary-text">'
+                    + thread.author.name + '</h2><time class="js--time sub-title" datetime="'
+                    + thread.datetime + '">'
+                    + thread.date + '</time><span class="chip"><i class="chip-icon"><svg class="chip-icon__svg" height="24" viewBox="0 0 24 24" width="24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/><path d="M0 0h24v24H0z" fill="none"/><path d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg></i><span class="js--timer chip-timer">calculating...</span></span></div><div class="sub-text">'
+                    + thread.content + '</div>';
 
-                document.getElementById('js--body').appendChild(template);
-                dueCheck.render();
-                updateButtons(1);
-                }
-                }
-                }
-                } catch (err) {
-                console.log(err);
-                }
+                        document.getElementById('js--body').appendChild(template);
+                        dueCheck.render();
+                        updateButtons(1);
+                            }
+                        }
+                        }
+                        } catch (err) {
+                        console.log(err);
+                        }
                 }
 
                 document.getElementById('js--new-get').addEventListener('click', newContent);
@@ -197,20 +194,20 @@
                 var dueCheck = function() {
                 let list = new Array();
 
-                return {
-                render: function() {
-                list = [];
+                    return {
+                    render: function() {
+                    list = [];
 
-                let cards = document.getElementsByClassName('js--card');
+                    let cards = document.getElementsByClassName('js--card');
 
-                function getTimeKST(datetime) {
-                datetime = datetime.split(' ');
+                    function getTimeKST(datetime) {
+                    datetime = datetime.split(' ');
 
-                if (datetime[4] == 'KST') {
-                // Day Month Date HH:MM:SS KST YYYY -> Day Month Date YYYY HH:MM:SS GMT+0900 (KST)
-                datetime =  datetime[0] + ' ' + datetime[1] + ' ' + datetime[2] + ' ' + datetime[5] + ' ' + datetime[3] + ' GMT+0900 (KST)';
-                } else {
-                datetime = datetime.join('');
+                    if (datetime[4] == 'KST') {
+                    // Day Month Date HH:MM:SS KST YYYY -> Day Month Date YYYY HH:MM:SS GMT+0900 (KST)
+                    datetime =  datetime[0] + ' ' + datetime[1] + ' ' + datetime[2] + ' ' + datetime[5] + ' ' + datetime[3] + ' GMT+0900 (KST)';
+                    } else {
+                    datetime = datetime.join('');
                 }
 
                 return Date.parse(datetime);
@@ -229,7 +226,8 @@
                 let date = new Date();
 
                 list.map(function(card) {
-                let remainSecs = Math.round(((3 * 86400000) - date.getTime() + card.date.getTime())/1000);
+                <%--3시간으로 수정--%>
+                let remainSecs = Math.round(((3 * 21600)- date.getTime() + card.date.getTime())/1000);
 
                 if (remainSecs <= 0) {
                 card.timer.innerHTML = 'DUE END';
@@ -295,7 +293,8 @@
                 target.classList.remove('card');
                 target.style.marginTop = '0';
                 }, 500);
-
+                <%--게시글 종료--%>
+                list_end();
                 setTimeout(function() {
                 document.getElementById('js--body').removeChild(target);
                 }, 20000);

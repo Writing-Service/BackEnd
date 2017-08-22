@@ -5,11 +5,11 @@
 
 <!--원하는 Database가 정해지면 이부분은 변경 예정-->
 <mapper namespace="com.project.writing.Mapper.UserMapper">
+
+<!--로그인 시에 이를 비교-->
 <select id="selectuser" resultType="com.project.writing.VO.UserVO">
-	select * from user;
+	select * from user
 </select>
-<select id="selectest" resultType="com.project.writing.VO.UserVO">
-	select * from user where idx = #{idx}
-</select>
+
 
 </mapper>
