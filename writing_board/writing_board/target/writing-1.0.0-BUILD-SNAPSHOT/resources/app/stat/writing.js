@@ -29,7 +29,7 @@ card.date = new Date(
 
 
 function updateTimer(card) {
-    let remainSecs = Math.round(((3 * 86400000) - Date.now() + card.date.getTime())/1000);
+    let remainSecs = Math.round(((10800000) - Date.now() + card.date.getTime())/1000);
 
     if (remainSecs <= 0) {
         card.timer.innerHTML = 'DUE END';

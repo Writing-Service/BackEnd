@@ -2,31 +2,70 @@
 <!DOCTYPE mapper
 	 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
-<!--원하는 Database가 정해지면 이부분은 변경 예정-->
 <mapper namespace="com.project.writing.Mapper.BoardMapper">
-
-<!--자신이 불러온  글을 꺼내오는 함수-->
-<select id="outputboard" resultType="com.project.writing.VO.BoardVO">
-   select * from board where board_writer = #{board_writer} and board_bool = 1;
+<!--글감을 불러오는 쿼리문 -->
+<select id="catchBoard" resultType="com.project.writing.VO.BoardVO">
+    select * from board where board_catcher = #{board_catcher}
 </select>
-
-<!--지금까지 작성된 글의 갯수-->
+<!--지금까지 작성된 받아올 글에서 갯수 불러오는 쿼리문 -->
 <select id="countBoard" resultType="int">
     select count(distinct board_number) from board order by board_number
 </select>
-
-<!--작성된 글을 불러오는 것-->
-<select id="callboard" resultType="com.project.writing.VO.BoardVO">
-   select * from board where board_number = #{board_number}
-</select>
-
-<!--이전의 바로 전 내용의 글을 불러오는 것-->
+<!--글 작성시 바로 전의 글을 불러오는 쿼리문 -->
 <select id="writelookboard" resultType="com.project.writing.VO.BoardVO">
     select * from board where idx = #{idx}
 </select>
+<!--작성된 글을 불러오는 것-->
+<select id="callboard" resultType="com.project.writing.VO.BoardVO">
+    select * from board where board_number = #{board_number}
+</select>
+<!--글감을 받아올 시 다른 회원이 받아올 수 있는 점을 방지-->
+<update id="insertbool">
+    update board set board_catcher = #{board_catcher} where idx = #{idx}
+</update>
+<!--임시 저장을 하는 쿼리문 -->
+<update id="tempinsertboard">
+   update board set author_save = #{author_save} where idx = #{idx} and board_catcher = #{board_catcher}
+</update>
+<!--작성완료 상태로 보내는 쿼리문 -->
+<insert id="commitinsertboard">
+   	INSERT INTO board(author,author_id,content,before_author_id,pre_author_id,write_number,board_number,board_bool) VALUES (#{author},#{author_id},#{content},#{before_author_id},#{pre_author_id},#{write_number},#{board_number},#{board_bool})
+</insert>
+<update id="commitinsertbeforeboard">
+    update board set author_save = #{author_save} where idx = #{idx}
+</update>
+<!--제출 상태로 보내는 쿼리문 -->
+<insert id="submitinsertboard">
+    INSERT INTO board(author,author_id,datatime,content,before_author_id,pre_author_id,write_number,board_number,board_bool) VALUES (#{author},#{author_id},#{datatime},#{content},#{before_author_id},#{pre_author_id},#{write_number},#{board_number},#{board_bool})
+</insert>
+<update id="submitupdateboard">
+      update board set datatime = #{datatime},content = #{content},board_bool = #{board_bool} where idx = #{idx}
+</update>
+<update id="commmitdeletecatcherboard">
+     update board set author_save = #{author_save},board_catcher = #{board_catcher} where idx = #{idx}
+</update>
+<select id="choiceboard" resultType="com.project.writing.VO.BoardVO">
+    select * from board where write_number = #{write_number} and board_number = #{board_number}
+</select>
 
 
+    <!--완료된 부분에 대한 쿼리문 -->
 
 
+<!--글이 완료되어서 제출 된 글로 넘어가는 부분-->
+<delete id="transdeleteboard">
+      delete from board where board_number = #{board_number}
+</delete>
+<insert id="transsubmitboard">
+     INSERT INTO submit_board(author,datatime,content,author_id,write_number,board_number,star) VALUES (#{author},#{datatime},#{content},#{author_id},#{write_number},#{board_number},#{star})
+</insert>
+
+    <!--라이브러리를 이용하는 쿼리문-->
+<select id="libraryselectnumber" resultType="Integer">
+  select idx from submit_board where author_id = #{author_id} order by idx limit 1 offset #{page}
+</select>
+
+<select id="libraryselect" resultType="com.project.writing.VO.SubmitBoardVO">
+    select * from submit_board where board_Number = #{board_Number}
+</select>
 </mapper>

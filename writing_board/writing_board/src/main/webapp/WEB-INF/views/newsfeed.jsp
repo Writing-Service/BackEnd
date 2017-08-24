@@ -33,10 +33,10 @@
     <header>
         <div class="header-layout">
 
-            <h1 class="header__title"><a href="/" title="홈으로">{{header_title}}</a></h1>
+            <h1 class="header__title"><a href="/" title="홈으로">Writing-Service</a></h1>
 
             <nav class="header__tabs">
-                <a class="item" href="/">
+                <a class="item" href="/firstwrite">
                     <svg class="item-icon" height="24" viewBox="0 0 24 24" width="24">
                         <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
                         <path d="M0 0h24v24H0z" fill="none"/>
@@ -44,7 +44,7 @@
                     <span class="item-span">글쓰기</span>
                 </a>
 
-                <a class="item" href="/library/">
+                <a class="item" href="/library">
                     <svg class="item-icon" height="24" viewBox="0 0 24 24" width="24">
                         <path d="M0 0h24v24H0z" fill="none"/>
                         <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9H9V9h10v2zm-4 4H9v-2h6v2zm4-8H9V5h10v2z"/>
@@ -53,7 +53,7 @@
                 </a>
 
 
-                <a class="item" href="/newsfeed/">
+                <a class="item" href="/newsfeed">
                     <svg class="item-icon" height="24" viewBox="0 0 24 24" width="24">
                         <path d="M12 10.9c-.61 0-1.1.49-1.1 1.1s.49 1.1 1.1 1.1c.61 0 1.1-.49 1.1-1.1s-.49-1.1-1.1-1.1zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm2.19 12.19L6 18l3.81-8.19L18 6l-3.81 8.19z"/>
                         <path d="M0 0h24v24H0z" fill="none"/>
@@ -67,24 +67,13 @@
                 <input id="user__toggle" type="checkbox" class="user__toggle hidden">
 
                 <label class="user__toggle-label" for="user__toggle">
-                    <span class="user__name">{{user.name}}</span>
+                    <span class="user__name">${author}</span>
                     <svg class="user__name-arrow" height="24" viewBox="0 0 24 24" width="24">
                         <path d="M7 10l5 5 5-5z"/>
                         <path d="M0 0h24v24H0z" fill="none"/>
                     </svg>
                 </label>
 
-                <label class="user__toggle-underlay" for="user__toggle"></label>
-
-                <div class="user__menu">
-                    {{user.name}}의 메뉴!
-                    <ul>
-                        <li><a href="/login/">로그인</a></li>
-                        <li><a href="/logout/">로그아웃</a></li>
-                        <!--삭제해야함-->
-                        <li><a href="/loginasadmin/">디버그 - 관리자로 로그인</a></li>
-                    </ul>
-                </div>
             </div>
         </div>
     </header>

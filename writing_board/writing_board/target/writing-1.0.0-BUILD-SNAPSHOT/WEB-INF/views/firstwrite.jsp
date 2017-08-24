@@ -51,44 +51,15 @@
 
             </div>
         </header>
-
-        <main id="js--body" class="body-layout card-list">
-        <div id="${BoardVO.author}" class="js--card card">
-            <div class="primary-header">
-                <h2 class="primary-text">${BoardVO.author}</h2>
-                <%--datatime(받아온 날 , date(그 사람이 작성한 날)--%>
-                <time class="js--time sub-title" datetime="${BoardVO.datatime}">${BoardVO.datatime}</time>
-                <span class="chip">
-                    <i class="chip-icon">
-                        <svg class="chip-icon__svg" height="24" viewBox="0 0 24 24" width="24">
-                            <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/>
-                            <path d="M0 0h24v24H0z" fill="none"/>
-                            <path d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
-                        </svg>
-                    </i>
-                    <span class="js--timer chip-timer">calculating...</span>
-                </span>
-            </div>
-
-            <div class="sub-text">${BoardVO.content}</div>
-        </div>
-
-
-
         <!-- 에디터 영역 시작 -->
-
+        <main id="js--body" class="body-layout card-list">
         <div class="editor nocard">
             <div class="editor-layout card">
-                <textarea id="js--em-editor">${BoardVO.author_save}</textarea>
-                <span id="js--em-types" class="types">0/700</span>
+                <textarea id="js--em-editor" maxlength="700"></textarea>
             </div>
             <div class="nocard">
                 <div class="editor-action card">
-                    <a class="item" href="javascript:write_temporary('${BoardVO.idx}',$('#js--em-editor').val())">임시저장</a>
-                    <i class="divider"></i>
-                    <a class="item" href="javascript:commit('${BoardVO.idx}',$('#js--em-editor').val())">작성완료</a>
-                    <i class="divider"></i>
-                    <a class="item" href="javascript:submit('${BoardVO.idx}',$('#js--em-editor').val())">전달</a>
+                    <a class="item" href="javascript:first_submit($('#js--em-editor').val())">작성완료</a>
                 </div>
             </div>
         </div>
