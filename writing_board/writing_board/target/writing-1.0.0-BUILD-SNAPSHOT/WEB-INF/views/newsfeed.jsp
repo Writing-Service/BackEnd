@@ -33,7 +33,7 @@
     <header>
         <div class="header-layout">
 
-            <h1 class="header__title"><a href="/" title="홈으로">Writing-Service</a></h1>
+            <h1 class="header__title"><a href="/logout" title="홈으로">LOG-OUT</a></h1>
 
             <nav class="header__tabs">
                 <a class="item" href="/firstwrite">

@@ -15,4 +15,10 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public List<UserVO> selectuserVO(){ return userMapper.selectuser();};
+
+    @Override
+    public List<UserVO> setuserVO(){return userMapper.selectuser();};
+
+    @Override
+    public void insertuserVO(UserVO uservo){ userMapper.insertuser(uservo);};
 }

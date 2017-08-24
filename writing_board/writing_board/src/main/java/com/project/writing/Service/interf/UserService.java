@@ -8,5 +8,6 @@ import java.util.List;
 public interface UserService {
 
     public List<UserVO> selectuserVO();
-
+    public List<UserVO> setuserVO();
+    public void insertuserVO(UserVO uservo);
 }

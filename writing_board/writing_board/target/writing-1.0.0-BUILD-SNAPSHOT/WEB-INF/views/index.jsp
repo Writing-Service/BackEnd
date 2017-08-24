@@ -20,7 +20,7 @@
         <header>
             <div class="header-layout">
 
-                <h1 class="header__title"><a href="/" title="홈으로">Writing-Service</a></h1>
+                <h1 class="header__title"><a href="/logout" title="홈으로">LOG-OUT</a></h1>
 
                 <nav class="header__tabs">
                     <a class="item" href="/firstwrite">
@@ -49,14 +49,6 @@
 
                     </a>
 
-                    <a class="item" href="/newsfeed">
-                        <svg class="item-icon" height="24" viewBox="0 0 24 24" width="24">
-                            <path d="M12 10.9c-.61 0-1.1.49-1.1 1.1s.49 1.1 1.1 1.1c.61 0 1.1-.49 1.1-1.1s-.49-1.1-1.1-1.1zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm2.19 12.19L6 18l3.81-8.19L18 6l-3.81 8.19z"/>
-                            <path d="M0 0h24v24H0z" fill="none"/>
-                        </svg>
-                        <span class="item-span"></span>
-
-                    </a>
                     <span class="item-span">${author}</span>
                 </nav>
 

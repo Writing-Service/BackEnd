@@ -55,6 +55,31 @@ public class HomeController {
 		return "home";
 	}
 
+    @RequestMapping(value="/logout", method = RequestMethod.GET)
+    public String logout(HttpServletRequest request, Locale locale,HttpSession httpSession)
+    {
+        httpSession.invalidate(); // 세션 삭제
+        return "home";
+    }
+
+    @RequestMapping(value = "/sign_up" ,method = RequestMethod.POST)
+    public String sign_up(Locale locale, Model model,UserVO userVO)
+    {
+
+        //회원가입된 아이디가 있으므로 다시 회원가입 창으로
+        List<UserVO> uservo = userServiceimpl.setuserVO();
+        //아이디 중복
+        for(UserVO vo : uservo){
+            if(userVO.getId().equals(vo.getId())){
+                logger.info("아이디가 중복 되었습니다!.", locale);
+                return "home";
+            }
+        }
+        userServiceimpl.insertuserVO(userVO);
+        logger.info("회원가입 되었습니다!.", locale);
+        return "home";
+    }
+
 
 	// 로그인 후 인덱스로 이동 - 저장했던 글 목록을 불러옴
 	@RequestMapping(value = "/login" , method =  RequestMethod.POST)

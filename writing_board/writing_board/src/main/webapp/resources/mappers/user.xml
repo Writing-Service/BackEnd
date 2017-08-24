@@ -11,5 +11,12 @@
 	select * from user
 </select>
 
+<!--회원가입-->
+<select id="setuser" resultType="com.project.writing.VO.UserVO">
+	select distinct id,password,nickname from user
+</select>
+<insert id="insertuser">
+	INSERT INTO user(id,password,nickname) VALUES (#{id},#{password},#{nickname})
+</insert>
 
 </mapper>

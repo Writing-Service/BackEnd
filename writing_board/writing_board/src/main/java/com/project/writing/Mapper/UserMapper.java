@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface UserMapper {
     public List<UserVO> selectuser();
+    public List<UserVO> setuser();
+    public void insertuser(UserVO uservo);
 }
